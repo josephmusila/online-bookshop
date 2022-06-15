@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Book
+from .models import Book,Subject,Author,Publisher
 import base64
 
 class BookSerializer(serializers.ModelSerializer):
@@ -20,3 +20,21 @@ class BookSerializer(serializers.ModelSerializer):
         return 
     def get_price_with_discount(request,book:Book):
         return book.price - (book.discount/100)*book.price
+
+
+class SubjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Subject
+        fields=('name',)
+
+
+class AuthorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Author
+        fields=('name',)
+
+
+class PublisherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Publisher
+        fields=('name',)

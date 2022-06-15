@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
+
 import 'package:http/http.dart' as http;
 
 class BookService {
@@ -7,6 +8,104 @@ class BookService {
     var response =
         await http.get(Uri.parse("http://127.0.0.1:8000/book/booklist"));
     return ListOfBook.fromList(jsonDecode(response.body));
+  }
+   Future<ListOfBook> getBookBySearch(String keyword) async {
+    var response =
+        await http.get(Uri.parse("http://127.0.0.1:8000/book/search/$keyword"));
+    return ListOfBook.fromList(jsonDecode(response.body));
+  }
+
+  Future<SubjectList> getSubject() async {
+    var response =
+        await http.get(Uri.parse("http://127.0.0.1:8000/book/subjectlist"));
+    return SubjectList.fromList(jsonDecode(response.body));
+  }
+
+  Future<PublisherList> getPublisher() async {
+    var response =
+        await http.get(Uri.parse("http://127.0.0.1:8000/book/publisherlist"));
+    return PublisherList.fromList(jsonDecode(response.body));
+  }
+
+  Future<AuthorList> getAuthor() async {
+    var response =
+        await http.get(Uri.parse("http://127.0.0.1:8000/book/authorlist"));
+    return AuthorList.fromList(jsonDecode(response.body));
+  }
+}
+
+class SubjectList {
+  List<Subject> subjects;
+  SubjectList({
+    required this.subjects,
+  });
+
+  factory SubjectList.fromList(List list) {
+    List<Subject> _subjects = [];
+    for (var element in list) {
+      _subjects.add(Subject.fromMap(element));
+    }
+    return SubjectList(subjects: _subjects);
+  }
+}
+
+class Subject {
+  String name;
+  Subject({
+    required this.name,
+  });
+  factory Subject.fromMap(map) {
+    return Subject(name: map['name']);
+  }
+}
+
+class AuthorList {
+  List<Author> authors;
+  AuthorList({
+    required this.authors,
+  });
+
+  factory AuthorList.fromList(List list) {
+    List<Author> _authors = [];
+    for (var element in list) {
+      _authors.add(Author.fromMap(element));
+    }
+    return AuthorList(authors: _authors);
+  }
+}
+
+class Author {
+  String name;
+  Author({
+    required this.name,
+  });
+  factory Author.fromMap(map) {
+    return Author(name: map['name']);
+  }
+}
+
+class PublisherList {
+  List<Publisher> publishers;
+  PublisherList({
+    required this.publishers,
+  });
+
+  factory PublisherList.fromList(List list) {
+    List<Publisher> _publisher = [];
+    for (var element in list) {
+      _publisher.add(Publisher.fromMap(element));
+    }
+    return PublisherList(publishers: _publisher);
+  }
+}
+
+class Publisher {
+  String name;
+  Publisher({
+    required this.name,
+  });
+  factory Publisher.fromMap(map) {
+    return Publisher(name: map['name']);
   }
 }
 
